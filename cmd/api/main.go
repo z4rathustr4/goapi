@@ -4,7 +4,7 @@ import (
     "fmt"
     "net/http"
 
-    chi "github.com/go-chi/chi/v5"
+    "github.com/go-chi/chi"
     "github.com/z4rathustr4/goapi/internal/handlers"
     log "github.com/sirupsen/logrus"
 )
@@ -23,7 +23,6 @@ VMMMP"  VMMMP"        dMP dMP dMP     dMP
        
         `)
 
-    fmt.Println("INFO: Serving on port 8080")
     err := http.ListenAndServe("localhost:8080", r)
     if err != nil {
         log.Error(err)

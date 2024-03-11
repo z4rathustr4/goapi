@@ -2,6 +2,7 @@ package middleware
 
 import (
     "errors"
+    "fmt"
     "net/http"
 
     "github.com/z4rathustr4/goapi/api"
@@ -10,35 +11,37 @@ import (
 
 )
 
-var UnauthorizedError = errors.New("ERR: Unauthorized")
+var UnAuthorizedError = errors.New(fmt.Sprintf("Invalid username or token."))
 
 func Authorization(next http.Handler) http.Handler {
-    return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {	
 
-        var username string = r.URL.Query().Get("username")
-        var token = r.Header.Get("Authorization")
-        var err error
+		var username string = r.URL.Query().Get("username")
+		var token = r.Header.Get("Authorization")
+		var err error
 
-        if username == "" || token == "" {
-            log.Error(UnauthorizedError)
-            api.RequestErrorHandler(w, UnauthorizedError)
-            return
-        }
-        
-        var db *tools.DBInterface
-        db, err = tools.NewDB()
-        if err != nil {
-            api.InternalErrorHandler(w)
-            return
-        }
-        
-        var loginDetails *tools.LoginDetails
-        loginDetails = (*db).GetUserLoginDetails(username)
-        if (loginDetails == nil || (token != (*loginDetails).AuthToken)) {
-            log.Error(UnauthorizedError)
-            api.RequestErrorHandler(w, UnauthorizedError)
-            return
-        }
-        next.ServeHTTP(w, r)
-    })
+		if username == "" {
+			api.RequestErrorHandler(w, UnAuthorizedError)
+			return
+		}
+
+		var database *tools.DBInterface
+		database, err = tools.NewDB()
+		if err != nil {
+			api.InternalErrorHandler(w)
+			return
+		}
+
+		var loginDetails *tools.LoginDetails
+		loginDetails = (*database).GetUserLoginDetails(username)
+
+		if (loginDetails == nil || (token != (*loginDetails).AuthToken)) {
+			log.Error(UnAuthorizedError)
+			api.RequestErrorHandler(w, UnAuthorizedError)
+			return
+		}
+
+		next.ServeHTTP(w, r)
+
+	})
 }

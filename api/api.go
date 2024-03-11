@@ -1,46 +1,50 @@
 package api
 
 import (
-    "encoding/json"
-    "net/http"
+	"encoding/json"
+	"net/http"
 )
-// Coin balance params
+
+// Coint Balance Params
 type CoinBalanceParams struct {
-    Username string
+	Username string
 }
-// Coin balance response
+
+// Coin Balance Response
 type CoinBalanceResponse struct {
-    // success code eg 200
-    Code int
-    // account balance
-    Balance int64
+	// Success Code, Usually 200
+	Code int
+
+	// Account Balance
+	Balance int64
 }
 
 // Error Response
 type Error struct {
-    // error code
-    Code int
-    // Error msg
-    Message string
+	// Error code
+	Code int
+
+	// Error message
+	Message string
 }
 
-func writeError(w http.ResponseWriter, message string, code int)  {
-    resp := Error{
-        Code:    code,
-        Message: message,
-    }
-    w.Header().Set("Content-Type", "application/json")
-    w.WriteHeader(code)
+func writeError(w http.ResponseWriter, message string, code int) {
+	resp := Error{
+		Code:    code,
+		Message: message,
+	}
 
-    json.NewEncoder(w).Encode(resp)
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(code)
+
+	json.NewEncoder(w).Encode(resp)
 }
-
 
 var (
-    RequestErrorHandler = func(w http.ResponseWriter, err error) {
-       writeError(w, err.Error(), http.StatusBadRequest) 
-    }
-    InternalErrorHandler = func(w http.ResponseWriter)  {
-        writeError(w, "An unexpected error occurred.", http.StatusInternalServerError)
-    }
+	RequestErrorHandler = func(w http.ResponseWriter,  err error) {
+		writeError(w, err.Error(), http.StatusBadRequest)
+	}
+	InternalErrorHandler = func(w http.ResponseWriter) {
+		writeError(w, "An Unexpected Error Occurred.", http.StatusInternalServerError)
+	}
 )
