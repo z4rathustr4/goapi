@@ -14,3 +14,4 @@ func Handler(r *chi.Mux) {
        r.Get("/coins", GetCoinBalance) 
     }
 }
+
