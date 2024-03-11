@@ -11,14 +11,17 @@ var mockLoginData = map[string]LoginDetails {
         AuthToken: "ASDF1234",
         Username: "alex",
     },
+
     "josu" : {
         AuthToken: "FASD4321",
         Username: "josu",
     },
+
     "mari" : {
         AuthToken: "SDFA1234",
         Username: "mari",
     },
+
     "juana" : {
         AuthToken: "AFDS4321",
         Username: "juana",
