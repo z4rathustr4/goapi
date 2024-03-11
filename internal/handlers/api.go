@@ -7,11 +7,14 @@ import (
 )
 
 func Handler(r *chi.Mux) {
-    r.Use(chimiddle.StripSlashes)
-    r.Route("/account", func(router chi.Router) {
-        // middleware for /account route
-       router.Use(middleware.Authorization)
-       r.Get("/coins", GetCoinBalance) 
-    })
-}
+	// Global middleware
+	r.Use(chimiddle.StripSlashes)
 
+	r.Route("/account", func(router chi.Router) {
+
+		// Middleware for /account route
+		router.Use(middleware.Authorization)
+
+		router.Get("/coins", GetCoinBalance)
+	})
+}
