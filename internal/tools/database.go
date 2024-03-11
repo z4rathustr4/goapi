@@ -23,11 +23,11 @@ type DBInterface interface {
 func NewDB() (*DBInterface, error) {
     var db DBInterface = &mockDB{}
 
-    var err, error = db.SetupDB()
+    var err error = db.SetupDB()
     if err != nil {
         log.Error(err)
         return nil, err
     }
 
-    return &db, error
+    return &db, nil
 }

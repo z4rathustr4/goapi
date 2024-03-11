@@ -19,8 +19,12 @@ func main() {
   dMP"    dMP"dMP        dMP"dMP dMP.dMP amr  
  dMP MMP"dMP dMP        dMMMMMP dMMMMP" dMP   
 dMP.dMP dMP.aMP        dMP dMP dMP     dMP    
-VMMMP"  VMMMP"        dMP dMP dMP     dMP       `)
-    err := http.ListenAndServe(":8080", r)
+VMMMP"  VMMMP"        dMP dMP dMP     dMP      
+       
+        `)
+
+    fmt.Println("INFO: Serving on port 8080")
+    err := http.ListenAndServe("localhost:8080", r)
     if err != nil {
         log.Error(err)
     }

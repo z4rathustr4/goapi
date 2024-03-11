@@ -26,7 +26,7 @@ type Error struct {
 
 func writeError(w http.ResponseWriter, message string, code int)  {
     resp := Error{
-        Code: code,
+        Code:    code,
         Message: message,
     }
     w.Header().Set("Content-Type", "application/json")
@@ -37,7 +37,7 @@ func writeError(w http.ResponseWriter, message string, code int)  {
 
 
 var (
-    RequestErrorHandler = func(w http.ResponseWriter, r *http.Request, err error) {
+    RequestErrorHandler = func(w http.ResponseWriter, err error) {
        writeError(w, err.Error(), http.StatusBadRequest) 
     }
     InternalErrorHandler = func(w http.ResponseWriter)  {

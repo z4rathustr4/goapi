@@ -8,10 +8,10 @@ import (
 
 func Handler(r *chi.Mux) {
     r.Use(chimiddle.StripSlashes)
-    r.Route("/account", func(r chi.Router) {
+    r.Route("/account", func(router chi.Router) {
         // middleware for /account route
        router.Use(middleware.Authorization)
        r.Get("/coins", GetCoinBalance) 
-    }
+    })
 }
 
